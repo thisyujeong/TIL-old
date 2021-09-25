@@ -1,4 +1,6 @@
-# Express Install
+# Express & Nodemon
+
+## Express Install
 
 > 서버를 쉽게 짤 수 있도록 도와주는 라이브러리
 
@@ -10,7 +12,7 @@ npm install express
 yarn add express
 ```
 
-# Express setting
+## Express setting
 
 express 라이브러리로 서버를 띄우기 위한 기본 셋팅
 
@@ -54,3 +56,38 @@ app.get('/path', function (request, response) {
 ```
 
 위의 서버를 실행해 `locathost:8080/path`로 접속하면 hello 문구를 확인할 수 있다.
+
+### 서버에서 HTML 파일 전달하기
+
+```js
+app.get('/path', function (request, response) {
+  response.sendFile(__dirname + '/index.html');
+});
+```
+
+## nodemon 라이브러리
+
+> 수정사항이 있을 때마다 server를 껐다 켜는 작업없이 자동적으로 server에 반영해주는 라이브러리
+
+```
+npm install -g nodemon
+yarn add global nodemon
+```
+
+### nodemon 서버 실행하기
+
+```
+nodemone server.js
+```
+
+실행 후 아래와 같이 뜨면 성공적으로 nodemon 설치 완료.
+
+```
+> nodemon server.js
+[nodemon] 2.0.13
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node server.js`
+listening on 8080
+```
