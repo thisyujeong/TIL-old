@@ -66,7 +66,7 @@ app.post('/', function (req, res) {
 });
 ```
 
-각 input에 정보를 입력하고 submit 버튼을 누르게되면 해당 데이터가 객페로 전달된 것을 터미널에서 확인할 수 있다.
+각 input에 정보를 입력하고 submit 버튼을 누르게되면 해당 데이터가 객체로 전달된 것을 터미널에서 확인할 수 있다.
 
 ```
 [nodemon] restarting due to changes...
