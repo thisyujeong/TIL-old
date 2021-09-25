@@ -47,8 +47,8 @@ ex / `localhost:8080`
 
 서버의 원하는 경로로 `get`요청 처리하기
 
-```
-app.get('/path', function(request, response){
+```js
+app.get('/path', function (request, response) {
   response.send('hello');
 });
 ```
