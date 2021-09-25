@@ -21,7 +21,7 @@
 
 # Node.js의 특징
 
-## 1. Server - 일반 서버와 Node.js 서버의 차이를 이해
+## Server - 일반 서버와 Node.js 서버의 차이를 이해
 
 **일반 프로그래밍으로 만든 서버 Server**
 
