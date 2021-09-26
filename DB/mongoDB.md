@@ -1,6 +1,6 @@
-# MogoDB
+# MongoDB
 
-MogoDB Atlas 접속 : [MogoDB Atlas](https://www.mongodb.com/cloud/atlas/lp/try2?utm_content=rlsavisitor&utm_source=google&utm_campaign=gs_apac_rlsamulti_search_core_brand_atlas_desktop_rlsa&utm_term=mongodb%20atlas&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=14412646476&gclid=Cj0KCQjwtMCKBhDAARIsAG-2Eu9HzTx9-UPpf_y3NBye5OhBkVwT7pLKya1WNQuDPIPtQO848-XzZbsaAouCEALw_wcB)
+MongoDB Atlas 접속 : [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/lp/try2?utm_content=rlsavisitor&utm_source=google&utm_campaign=gs_apac_rlsamulti_search_core_brand_atlas_desktop_rlsa&utm_term=mongodb%20atlas&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=14412646476&gclid=Cj0KCQjwtMCKBhDAARIsAG-2Eu9HzTx9-UPpf_y3NBye5OhBkVwT7pLKya1WNQuDPIPtQO848-XzZbsaAouCEALw_wcB)
 
 1. Cluster 생성
 2. Database Access 에서 DB 접속용 아이디/비밀번호를 생성한다.
@@ -10,22 +10,22 @@ MogoDB Atlas 접속 : [MogoDB Atlas](https://www.mongodb.com/cloud/atlas/lp/try2
 5. 생성된 DB를 연결하기 위해 Clusters에서 connect(연결)하기 / **connect your application**  
    사용할 언어와 버전 선택 후 DB 연결을 위한 connection code 복사 후 사용
 
-## 이렇게 생성된 DB 연결하기
+## 생성된 DB 연결하기
 
-### MogoDB Install
+### MongoDB Install
 
-MogoDB 라이브러리 설치
+MongoDB 라이브러리 설치
 
 ```
-npm install mogodb
-yarn add mogodb
+npm install mongodb
+yarn add mongodb
 ```
 
 ### How to Use
 
 ```js
 const MongoClient = require('mongodb').MongoClient;
-MogoClient.connect('connection code', function (error, client) {
+MongoClient.connect('connection code', function (error, client) {
   // database 접속이 완료되면 실행될 코드
   if (error) return console.log(error); // 에러 발생 시 실행될 코드
 });
@@ -48,7 +48,7 @@ DB 를 생성할 때 설정했던 Database name을 이와같이 연결하면 해
 const MongoClient = require('mongodb').MongoClient;
 
 let db;
-MogoClient.connect('connection code', function (error, client) {
+MongoClient.connect('connection code', function (error, client) {
   if (error) return console.log(error);
   db = client.db('database name');
 
@@ -74,7 +74,7 @@ MogoClient.connect('connection code', function (error, client) {
 }
 ```
 
-이처럼 DB에 자료를 저장하고 나면 MogoDB에서 해당 db의 collection에 저장된 데이터를 실시간으로 확인할 수 있다. 그런데 저장된 데이터에서 `_id`라는 자료가 저장되어있는 것을 확인할 수 있는데, 이는 데이터를 저장할 때 직접 `_id`를 설정하지 않으면 임시의 `_id`를 강제로 생성하기 때문에 데이터를 저장할때 `_id`를 함께 저장하는 것이 좋다.
+이처럼 DB에 자료를 저장하고 나면 MongoDB에서 해당 db의 collection에 저장된 데이터를 실시간으로 확인할 수 있다. 그런데 저장된 데이터에서 `_id`라는 자료가 저장되어있는 것을 확인할 수 있는데, 이는 데이터를 저장할 때 직접 `_id`를 설정하지 않으면 임시의 `_id`를 강제로 생성하기 때문에 데이터를 저장할때 `_id`를 함께 저장하는 것이 좋다.
 
 ## DB 데이터 불러오기
 
