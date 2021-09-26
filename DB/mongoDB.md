@@ -97,7 +97,7 @@ db.collection('collection name')
   });
 ```
 
-### 2. fineOne 함수
+### 2. findOne 함수
 
 `findOne` 함수는 DB에서 한가지 자료만 불러오고 싶을 때 사용하는 함수로 이와 같이 사용할 수 있다.
 아래 예제는 해당 collection 에서 `name`이 `counter`인 데이터만 불러오는 예제이다.
