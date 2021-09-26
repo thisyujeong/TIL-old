@@ -31,7 +31,7 @@ MongoClient.connect('connection code', function (error, client) {
 });
 ```
 
-`connect 함수`의 첫번째 파라미터로 Database connection code를 입력하여 연결한다.
+`connect` 함수의 첫번째 파라미터로 Database connection code를 입력하여 연결한다.
 
 ex / connection code
 
@@ -78,6 +78,8 @@ MongoClient.connect('connection code', function (error, client) {
 
 ## DB 데이터 불러오기
 
+### 1. find 함수
+
 원하는 db의 컬렉션에서 `find` 함수를 사용하면 collection 안의 모든 데이터를 불러올 수 있다.
 
 ```js
@@ -93,4 +95,65 @@ db.collection('collection name')
     if (err) return console.log(err);
     console.log(result);
   });
+```
+
+### 2. fineOne 함수
+
+`findOne` 함수는 DB에서 한가지 자료만 불러오고 싶을 때 사용하는 함수로 이와 같이 사용할 수 있다.
+아래 예제는 해당 collection 에서 `name`이 `counter`인 데이터만 불러오는 예제이다.
+
+```js
+db.collection('collection name').findOne({ name: 'counter' }, (err, result) => {
+  ...
+};
+```
+
+## DB 데이터 수정하기
+
+### 1. updateOne 함수
+
+`updateOne` 함수는 DB에서 하나의 데이터를 수정할 때 사용하며, 세가지의 파라미터를 받는다.
+
+> 1. 첫번째 파라미터는 수정할 데이터의 이름
+> 2. 두번째 파라미터는 수정 값
+> 3. 세번째 파라미터는 콜백함수를 전달한다. (생략 가능)
+
+단, 두번째 파라미터는 operator를 사용해야 한다. operator의 종류는 `$set`(변경), `$inc`(증가), `$min`(기존 값보다 적을 때 변경), `$rename`(key값 이름 변경)... 등이 있다.
+
+아래 예제는 `name`이 `counter`인 데이터의`total` 값을 100로 **변경**시키는 예제이다.
+
+```js
+db.collection('collection name').updateOne(
+  { name: 'counter' },
+  { $set: { total: 100 } },
+  (err, result) => {
+    // 실행할 코드
+  }
+);
+```
+
+아래 예제는 `name`이 `counter`인 데이터의`total`값을 100만큼 **증가**시키는 예제이다.
+
+```js
+db.collection('collection name').updateOne(
+  { name: 'counter' },
+  { $inc: { total: 100 } },
+  (err, result) => {
+    // 실행할 코드
+  }
+);
+```
+
+### 2. updateMany 함수
+
+`updateMany` 함수는 DB에서 다수의 데이터를 수정할 때 사용한다. 사용 법은 `updateOne`과 크게 다르지 않다. 두번째 파라미터에서 여러 데이터를 를 수정할 수 있다.
+
+```js
+db.collection('collection name').updateMany(
+  { name: 'counter' },
+  { $inc: { total: 100 }, $set: { initNum: 0 } },
+  (err, result) => {
+    // 실행할 코드
+  }
+);
 ```
