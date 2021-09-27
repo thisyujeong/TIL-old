@@ -157,3 +157,60 @@ db.collection('collection name').updateMany(
   }
 );
 ```
+
+## DB 데이터 삭제하기
+
+### deleteOne 함수
+
+```js
+db.collection('collection name').deleteOne({_id: 2}, (err, result) => {
+  ...
+})
+```
+
+해당 예제는 app(expresS)에서 삭제(delete)요청을 할 때 DB의 원하는 collection에서 `_id`의 값이 2인 데이터를 삭제하겠다는 의미이다.
+
+`deleteOne` 함수의 첫번째 파라미터는 삭제할 항목을 전닫달하고, 두번째 파라미터로 콜백함수를 전달한며, 해당 요청이 성공/실패했을 때 실행 된다.
+
+### AJAX로 DB 삭제 요청하기
+
+> Node.js(Express)가 포함된 예제.
+
+이 예제는 delete 버튼을 누르면 `/delete` 경로로 `{_id: 1}`이라는 데이터와 함께 전달하여 삭제 요청을 하는 예제이다.
+
+```js
+$('.delete').click(() => {
+  $.ajax({
+    method: 'DELETE', // delete 요청
+    url: '/delete', // 요청할 path
+    data: { _id: postNumber }, // 요청과 함께 서버에 {_id: 1} 이라는 데이터도 함께 전달
+  }).done(function (result) {
+    // 요청이 완료되면 실행될 코드
+  });
+});
+```
+
+```js
+app.delete('/delete', (req, res) => {
+  console.log(req.body);
+  db.collection('post').deleteOne(req.body, () => {
+    console.log('delete completed');
+  });
+});
+```
+
+이렇게 작성하고 새로고침을 해보면 터미널 창에 요청한 값(`req.body`)인 `{ _id: '1' }`이 출력되는 것을 확인할 수 있다.
+
+그런데 DB에서 해당 데이터가 삭제되지 않은 것을 알 수 있는데, 자세히 보면 위 ajax 예제에서 `{_id: 1}` 숫자형 데이터를 보냈으나 `Node`로 받아온 데이터는 `{ _id: '1' }` 문자열로 변환된 데이터를 전달받았다. 이럴 땐 `parseInt` 함수를 사용해 숫자로 변환시킬 수 있다.
+
+```js
+app.delete('/delete', (req, res) => {
+  console.log(req.body);
+  req.body._id = parseInt(req.body._id);
+  db.collection('post').deleteOne(req.body, () => {
+    console.log('delete completed');
+  });
+});
+```
+
+다시 확인해보면 데이터가 삭제된 것을 확인할 수 있을 것이다.
