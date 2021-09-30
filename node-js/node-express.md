@@ -45,11 +45,24 @@ listen 함수는 두가지 파라미터를 전달받는다. 첫번째 파라미�
 위에서 작성한 포트 번호를 브라우저의 주소창에서 `localhost:port` 의 port 자리에 입력후 브라우저에서 연다.  
 ex / `localhost:8080`
 
-## Basic Get request
+## HTTP Methods
 
-서버의 원하는 경로로 `get`요청 처리하기
+> - GET: getting data (조회)
+> - POST: creating data (생성)
+> - PUT: updating data (전체 수정)
+> - DELETE: deleting data (삭제)
+> - PATCH: deleting data (수정)
+
+## GET request
+
+> 서버의 원하는 경로로 `get`요청 처리
 
 ```js
+/* with body-parser
+ * 파라미터 변수 뜻
+ * req: request 요청
+ * res: response 응답
+ */
 app.get('/path', function (request, response) {
   response.send('hello');
 });
@@ -62,5 +75,62 @@ app.get('/path', function (request, response) {
 ```js
 app.get('/path', function (request, response) {
   response.sendFile(__dirname + '/index.html');
+});
+```
+
+## POST request
+
+> POST 요청으로 해당 경로의 데이터를 서버에 전송
+
+POST 요청으로 해당 경로의 데이터를 서버에 전송할 수 있다.  
+보통 데이터를 생성할 때 사용된다. req.body에 데이터를 담아서 보낸다.
+
+```js
+app.post('/path', function (req, res) {
+  var post = req.body;
+});
+```
+
+## PUT request
+
+> 데이터를 수정할 때 사용되는 Method
+> 데이터와 조건을 보내면, 조건에 맞는 정보를 주어진 데이터로 수정한다.
+
+```js
+app.put('/path', function (req, res) {
+  ...
+}
+```
+
+## DELETE request
+
+> 단일 데이터를 수정할 때 사용
+> 보통 Query Params나 Path Variables와 Body를 혼합해서 잘 사용한다. 조건에 맞는 데이터를 삭제
+
+```js
+app.delete('/path', function (req, res) {
+  ...
+}
+```
+
+## + express 에서 status code 넣기
+
+express에서 직접 응답코드를 요청할 수 있다.
+
+### status()
+
+파라미터로 응답코드를 전달한다. 동시에 이와 같이 `send`함수를 사용해 `cmd` 에 출력할 수 있다.
+
+```js
+app.get('/', (req, res) => {
+  res.status(200).send('hello world');
+});
+```
+
+또는 이와 같이 `send`를 사용해 message 직접 전달해 개발자도구의 `console`에 메세지를 출력할 수 있다.
+
+```js
+app.get('/', (req, res) => {
+  res.status(200).send({ message: 'success' });
 });
 ```

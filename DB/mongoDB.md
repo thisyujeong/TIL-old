@@ -184,9 +184,15 @@ $('.delete').click(() => {
     method: 'DELETE', // delete 요청
     url: '/delete', // 요청할 path
     data: { _id: postNumber }, // 요청과 함께 서버에 {_id: 1} 이라는 데이터도 함께 전달
-  }).done(function (result) {
-    // 요청이 완료되면 실행될 코드
-  });
+  })
+    .done(function (result) {
+      // 요청이 완료되면 실행될 코드
+      // ex 페이지를 강제로 새로고침
+      console.log('ajax success');
+    })
+    .fail(function () {
+      // ajax 요청 실패 시 실행할 코드
+    });
 });
 ```
 

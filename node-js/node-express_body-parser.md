@@ -1,6 +1,6 @@
 # Node - Express 미들웨어 body-parser
 
-> 클라이언트 POST request data의 body로부터 파라미터를 편리하게 추출하는 라이브러리
+> 클라이언트 POST **request data의 body로부터 파라미터를 편리하게 추출**하는 라이브러리
 
 body-parser는 요청의 본문을 해석해주는 node.js의 모듈, 미들웨어다.
 보통 `form` 데이터나 `Ajax` 요청의 데이터를 처리한다.
@@ -60,6 +60,11 @@ form의 **action**과 **method** 속성은 데이터를 전송할 때 **꼭 필�
 ### JS
 
 ```js
+/*
+ * 파라미터 변수 뜻
+ * req: request 요청
+ * res: response 응답
+ */
 app.post('/', function (req, res) {
   var post = req.body;
   console.log(post);
