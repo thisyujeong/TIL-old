@@ -15,10 +15,39 @@ yarn add method-override
 
 ## How to Use
 
+### JS
+
 ```js
+// server.js
 const express = require('express');
 const app = express();
 
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
+```
+
+## Example
+
+간단히 form을 예로 들어 이처럼 작성할 수 있다.
+
+### HTML
+
+```html
+<form action="/path?_method=PUT" method="POST">
+  <label>name</label>
+  <input type="text" name="name" />
+</form>
+```
+
+기존 HTML에서 `action="/path"`라고 적었다면 **method-override** 를 사용하여 PUT 처리를 할 땐 이와 같이 `action="/path?_method="PUT"`로 작성한다. 이렇게 작성하게 되면 해당 경로(`/path`)로 **PUT** 요청이 가능해진다. 단, method 속성으로는 그대로 POST/GET 을 전달해야한다.
+
+이제 PUT 요청을 하는 코드를 작성하면 이와 같다.
+
+### JS
+
+```js
+/* server.js */
+app.put('/path', function (req, res) {
+  // edit code ...
+});
 ```
