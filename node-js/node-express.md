@@ -134,3 +134,23 @@ app.get('/', (req, res) => {
   res.status(200).send({ message: 'success' });
 });
 ```
+
+## 경로 이동하기
+
+### res.redirect()
+
+요청의 경로를 재설정한다.
+이 예제는 `/edit` 경로에서 `<form>` 데이터를 수정 후 **`redirect`**를 사용해 경로를 재설정 한 예제이다.
+
+```js
+app.put('/edit', (req, res) => {
+  db.collection('post').updateOne(
+    { _id: parseInt(req.body.id) },
+    { $set: { title: req.body.title, date: req.body.date } },
+    (err, result) => {
+      console.log('done fixing it');
+      res.redirect('/list'); // reset the path
+    }
+  );
+});
+```
