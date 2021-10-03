@@ -100,6 +100,7 @@ passport.authenticate('local' {
   > usernameField, passwordField 는 해당 input의 name 속성 값과 동일해야한다. 이 값으로 데이터베이스 값과 비료해 인증절차를 진행하는데, 만약 인증에 실패한 경우 done(False, null), 성공한 경우 done(null, 유저정보객체) `serializeUser`를 넘기게된다.
 - session : 로그인 후 세션 정보를 저장할 것인지 여부, true 이면 나중에 재 로그인하지 않아도 됨.
 - passReqToCallback : 사용자의 아이디/비밀번호가 아닌 다른 정보를 검사해야할 경우 true를 전달하는데, 이 경우 `LocalStrategy`의 두번째 파라미터인 콜백함수의 첫번재 파라미터로 기타 정보를 전달할 수 있다. 얘를 들어 아래와 같이 작성할 수 있다.
+
   ```js
   passport.use(new LocalStrategy({
     ...
@@ -113,6 +114,20 @@ passport.authenticate('local' {
 
 하지만 여기서 문제점이 있는데, 입력한 비밀번호를 암호화 작업없이 DB와 비교하기 때문에 보안이 좋지 않다.
 
-### session 세션 등록
+### 4. session 세션 등록
 
-로그인(인증)에 성공하면 세션(로그인을 했었는지)을 만들어주어야한다.
+로그인(인증)에 성공하면 세션(로그인을 했었는지)을 만들어주어야한다.  
+위에서 인증에 성공한 경우 `done(null, 유저정보객체)`를 `serializeUser`에 전달한다고 했는데, 이 `serializeUser` 함수가 세션을 저장시키는 역할을 하며, 로그인이 성공할 때만 발동된다.
+
+```js
+password.serializeUser(function (user, done) {
+  done(null, user.id); // user.id 라는 정보로 세션을 생성(보관)한다.
+});
+```
+
+위 코드의 첫번째 파라미터 `user`는 유저 정보(결과)를 받아온다.
+`done(null, user.id)` 는 id를 이용해 세션을 저장시키는 코드이다. 저장을 하고 나면 세션의 id 정보를 그대로 사용자 브라우저의 쿠키로 보낸다. 실제로 로그인에 성공하면 쿠키가 추가되는 것을 확인할 수 있다.
+
+**쿠키 확인하기**
+
+> 개발자 도구 > Application > Cookies
