@@ -27,7 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 ```
 
-### 로그인 페이지 불러오기
+### 1. 로그인 페이지 불러오기
 
 ```js
 app.get('/login', (req, res) => {
@@ -36,7 +36,7 @@ app.get('/login', (req, res) => {
 });
 ```
 
-### POST 요청하기
+### 2. POST 요청하기
 
 ```js
 app.post('/login', passport.authenticate('local' {
@@ -53,7 +53,7 @@ post 요청의 두번째 파라미터로 `passport.authenticate()`를 전달하�
 `authenticate()`를 local strategy(인증하는 방법을 Strategy 라고 칭한다)로 호출한다. 두번째 파라미터로 setting을 할 수 있다. `failureRedirect` 는 회원 인증에 해당 경로로 이동하며,
 회원 인증에 성공할 시 `res.redirect`로 경로 이동을 설정했다.
 
-### 아이디 비밀번호를 인증하는 세부 코드
+### 3. 아이디 비밀번호를 인증하는 세부 코드
 
 ```js
 passport.use(
@@ -66,13 +66,17 @@ passport.use(
     },
     function (입력한아이디, 입력한비번, done) {
       // passReqToCallback: true 일때 function (req, 입력한아이디, 입력한비번, done)
-      console.log(입력한아이디, 입력한비번);
       db.collection('login').findOne({ id: 입력한아이디 }, (err, result) => {
-        if (err) return done(err);
+        if (err) return done(err); // 에러
+
+        // DB에 입력한 아이디가 없을 때
         if (!result) return done(null, false, { message: '존재하지 않는 아이디입니다.' });
+        // DB에 입력한 아이디가 있을 때
         if (입력한비번 == result.pw) {
+          // 입력한 비번과 result.pw를 비교
           return done(null, result);
         } else {
+          // 입력한 비번과 result.pw가 틀리면
           return done(null, false, { message: '비밀번호가 일치하지않습니다.' });
         }
       });
@@ -81,14 +85,34 @@ passport.use(
 );
 ```
 
+위 세부 코드들은 로그인을 할 때만 실행되는 코드이다.  
+정확히 말하면 위 **2. POST 요청 예제**에서 아래 부분 때문에 동작하는 코드이다.
+
+```js
+passport.authenticate('local' {
+  failureRedirect: '/fail',
+}
+```
+
 `LocalStrategy( { 설정 }, function(){ 아이디비번 검사하는 코드 } )`
 
-- usernameField : 사용자가 제출한 아이디가 어떤 input 인지 name 속성 값 작성
-- passwordField : 사용자가 제출한 비밀번호가 어떤 input 인지 name 속성 값 작성
+- usernameField, passwordField : 사용자가 제출한 아이디가 어떤 input 인지 name 속성 값 작성 :
+  > usernameField, passwordField 는 해당 input의 name 속성 값과 동일해야한다. 이 값으로 데이터베이스 값과 비료해 인증절차를 진행하는데, 만약 인증에 실패한 경우 done(False, null), 성공한 경우 done(null, 유저정보객체) `serializeUser`를 넘기게된다.
 - session : 로그인 후 세션 정보를 저장할 것인지 여부, true 이면 나중에 재 로그인하지 않아도 됨.
 - passReqToCallback : 사용자의 아이디/비밀번호가 아닌 다른 정보를 검사해야할 경우 true를 전달하는데, 이 경우 `LocalStrategy`의 두번째 파라미터인 콜백함수의 첫번재 파라미터로 기타 정보를 전달할 수 있다. 얘를 들어 아래와 같이 작성할 수 있다.
   ```js
-  function (req, 입력한아이디, 입력한비번, done) {
+  passport.use(new LocalStrategy({
+    ...
+  }, function (req, 입력한아이디, 입력한비번, done) {
     console.log(req.body);
-  }
+    ...
+  }))
   ```
+
+`done()`은 세개의 파라미터를 가질 수 있다. 첫번째 파라미터는 서버에러, 두번째 파라미터는 인증 성공 시 사용자 DB데이터(result)를 보낸다. 하지만 아이디/비번이 일치하지 않으면 해당 파리머트에는 false를 전달한다.
+
+하지만 여기서 문제점이 있는데, 입력한 비밀번호를 암호화 작업없이 DB와 비교하기 때문에 보안이 좋지 않다.
+
+### session 세션 등록
+
+로그인(인증)에 성공하면 세션(로그인을 했었는지)을 만들어주어야한다.
