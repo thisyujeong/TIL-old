@@ -154,3 +154,24 @@ app.put('/edit', (req, res) => {
   );
 });
 ```
+
+## app.use()
+
+express에서 미들웨어를 사용할 때 `app.use(~)`를 작성하면 "나는 미들웨어를 사용할 것이다" 라는 의미이다.
+
+```js
+const express = require('express');
+const app = express();
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+```
+
+위처럼 다양한 미들웨어들을 `app.use`를 사용할 수 있다.
+
+## Express middleware
+
+Express 미들웨어란 쉽게말해 함수이다.Express에서는 사실 모든것들이 미들웨어라고 할 수 있다. 미들웨어 함수는 요청(req), 응답(res), 그리고 애플리케이션의 요청-응답 주기 중 그 다음의 미들웨어 함수에 대한 액세스 권한을 갖는 함수이다. 그 다음의 미들웨어 함수는 일반적으로 next라는 이름의 변수로 표시된다.
