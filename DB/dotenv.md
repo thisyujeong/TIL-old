@@ -31,7 +31,7 @@ DATABASE_ID=''
 require('dotenv').config();
 ```
 
-이제 환경변수를 사용할 때 `preccess.env.변수명` 형태로 사용할 수 있다.
+이제 환경변수를 사용할 때 `process.env.변수명` 형태로 사용할 수 있다.
 
 ```js
 let db;
