@@ -1,6 +1,6 @@
 # dotenv (.env)
 
-> dotenv는 환경변수를 .env 파일에 저장하고 preccess.env로 로드하는 의존성 모듈 (environment variable)
+> dotenv는 환경변수를 .env 파일에 저장하고 precess.env로 로드하는 의존성 모듈 (environment variable)
 
 `dotenv`를 사용하는 이유는 개발을 하는 과정에서 서버주소, 고유 API KEY 값 등 필요한 정보를 저장하게 되는데 이러한 정보들은 민감한 정보임과 동시에 보안이 이루어져야 하는 정보들이기 때문에 오픈소스에 공개될 경우 보안 위험이 있기 때문이다.
 
@@ -31,7 +31,7 @@ DATABASE_ID=''
 require('dotenv').config();
 ```
 
-이제 환경변수를 사용할 때 `preccess.env.변수명` 형태로 사용할 수 있다.
+이제 환경변수를 사용할 때 `process.env.변수명` 형태로 사용할 수 있다.
 
 ```js
 let db;
