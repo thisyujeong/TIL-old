@@ -27,6 +27,28 @@ app.use(passport.initialize());
 app.use(passport.session());
 ```
 
+### 0. 로그인 폼 제작
+
+본 예제는 view engine 미들웨어와 mongoDB를 사용한다.
+
+```html
+/login.ejs
+
+<div class="container mt-3">
+  <form action="/login" method="POST">
+    <div class="form-group">
+      <label>ID</label>
+      <input type="text" class="form-control" name="id" />
+    </div>
+    <div class="form-group mt-3">
+      <label>PASSWORD</label>
+      <input type="text" class="form-control" name="pw" />
+    </div>
+    <button type="submit" class="btn btn-danger mt-3">Login</button>
+  </form>
+</div>
+```
+
 ### 1. 로그인 페이지 불러오기
 
 ```js
@@ -172,3 +194,57 @@ function isLogin(req, res, next) {
 express에서 직접 생성한 미들웨어를 사용할 땐 두번째 파라미터로 생성한 미들웨어를 전달해주면 된다. 두번째 파라미터로 전달하게되면 세번째 파라미터가 동작하기 전에 미들웨어를 먼저 실행 후 세번째 파라미터가 동작하게 된다.
 
 > 직접 생성한 `isLogin`미들웨어에서 `req.user`는 로그인 후 세션이 존재하면 항상 존재한다.
+
+---
+
+## 보너스 예제 / 회원가입 기능 구현하기
+
+본 예제는 view engine 미들웨어를 mongoDB를 사용한다.
+
+### 0. 회원가입 폼 작성 (ejs)
+
+```html
+/register.ejs
+
+<div class="container mt-3">
+  <form action="/register" method="POST">
+    <div class="form-group">
+      <label>ID</label>
+      <input type="text" class="form-control" name="id" />
+    </div>
+    <div class="form-group mt-3">
+      <label>PASSWORD</label>
+      <input type="text" class="form-control" name="pw" />
+    </div>
+    <button type="submit" class="btn btn-danger mt-3">Create Account</button>
+  </form>
+</div>
+```
+
+회원가입 기능 제작에 앞서 가입 폼을 제작해야한다.  
+로그인 폼에서 `action` 과 `button`워딩만 변경해주었다.
+
+### 1. DB 에 가입 정보 등록
+
+다음은 `server.js`에서 DB 처리를 해주면 되는데, 방법은 간단하다.
+
+```js
+/server.js
+
+...
+
+app.post('/register', (req, res) => {
+  db.collection('login').insertOne(
+    { id: req.body.id, pw: req.body.pw },
+    (err, result) => {
+      res.redirect('/'); // 가입 후 메인페이지 이동
+    }
+  );
+});
+```
+
+post 요청후 db 의 `login` 컬렉션에 `id`와 `pw` 데이터를 추가해주는 작업만 해주면 간단하게 완성 되었다. 하지만 여기서 문제점 세가지가 있는데 실제 구현할 때는 아래 세가지 항목들을 참고하자.
+
+> 1. 해당 아이디가 이미 존재하는가 중복 체크
+> 2. 아이디에 알파벳, 숫자만 포함되어있는지
+> 3. 비밀번호 저장 전 암호화가 되었는가
