@@ -63,7 +63,7 @@ module.exports = router;
 app.use('/shop', require('./routes/shop.js'));
 ```
 
-공통된 경로를 반복적으로 작성하지 않고 server.js 에서 경로를 `/shop`으로 작성하면 이는 `/shop/shirts`, `/shop/pants` 로 연결된다. 이렇게 작성하면 어디에 해당하는 라우터인지 좀 더 직관적인 코드가 된다.
+공통된 경로를 반복적으로 작성하지 않고 server.js 에서 경로를 `/shop`으로 작성하면 이는 `/shop/shirts`, `/shop/pants` 로 연결된다. 이렇게 작성하면 어디에 해당하는 라우터인지 쉽게 알 수 있는 직관적인 코드가 된다.
 
 ## router에 미들웨어 적용하기
 
