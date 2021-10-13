@@ -40,3 +40,5 @@ module.exports = function (app) {
 ```
 
 setupProxy.js 파일을 src 폴더에 생성해 프로젝트 proxy 설정을 커스터마이징 한다. 본 예제에서는 클라이언트 포트를 서버 포트로 설정해주어야 하기 때문에 `target`의 `value`값을 클라이언트 서버 포트인 `8080`으로 설정해주었다.
+
+공식문서 바로가기 [Create React App - Proxying in Development](https://create-react-app.dev/docs/proxying-api-requests-in-development/)
