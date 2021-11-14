@@ -10,7 +10,7 @@ Error: listen EADDRINUSE: address already in use :::5000
 
 5000번 서버를 사용하는 프로세스를 찾아 완전히 종료시킨다.
 
-#### 5000번 포트를 사용중인 프로세스 찾기
+#### 1. 5000번 포트를 사용중인 프로세스 찾기
 
 아래 명령어를 입력하면 프로세스의 PID 값을 확인할 수 있다.
 
@@ -18,7 +18,7 @@ Error: listen EADDRINUSE: address already in use :::5000
 sudo lsof -i :5000
 ```
 
-#### 프로세스의 PID 값을 강제종료
+#### 2. 프로세스의 PID 값을 강제종료
 
 `-9`는 kill의 강제 종료 시그널인 9 번을 사용한다는 의미
 
